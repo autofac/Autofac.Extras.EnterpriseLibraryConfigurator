@@ -1,11 +1,11 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac.Extras.EnterpriseLibraryConfigurator", "src\Autofac.Extras.EnterpriseLibraryConfigurator\Autofac.Extras.EnterpriseLibraryConfigurator.csproj", "{97BC9D7B-A233-4109-AFB7-1F2F0C137CCF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac.Extras.Tests.EnterpriseLibraryConfigurator", "test\Autofac.Extras.Tests.EnterpriseLibraryConfigurator\Autofac.Extras.Tests.EnterpriseLibraryConfigurator.csproj", "{0122ECB8-93C3-4020-A28D-1078E32C5DB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autofac.Extras.EnterpriseLibraryConfigurator.Test", "test\Autofac.Extras.EnterpriseLibraryConfigurator.Test\Autofac.Extras.EnterpriseLibraryConfigurator.Test.csproj", "{0122ECB8-93C3-4020-A28D-1078E32C5DB2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,14 +6,14 @@
     <authors>Autofac Contributors</authors>
     <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Microsoft Enterprise Library features generally assume Unity as the backing store for IoC operations. This extension allows you to use Autofa as the backing store for Microsoft Enterprise Library application blocks.</description>
-    <summary>Autofac extension allowing Autofac to be used with Microsoft Enterprise Library.</summary>
+    <description>Microsoft Enterprise Library features generally assume Unity as the backing store for IoC operations. This extension allows you to use Autofac as the backing store for Microsoft Enterprise Library application blocks.</description>
+    <summary>Microsoft Patterns and Practices Enterprise Library 5 support for using Autofac as the container.</summary>
     <language>en-US</language>
-    <title>Autofac Extras: Enterprise Library Configuration Support</title>
+    <title>Autofac Extras: Enterprise Library 5 Configuration Support</title>
     <projectUrl>http://autofac.org</projectUrl>
     <iconUrl>http://code.google.com/p/autofac/logo</iconUrl>
     <dependencies>
-      <dependency id="Autofac" version="[3.3.1,4.0.0)" />
+      <dependency id="Autofac" version="[3.3.1,5.0.0)" />
       <dependency id="CommonServiceLocator" version="1.2.0" />
       <dependency id="EnterpriseLibrary.Common" version="[5.0.505.0]" />
     </dependencies>

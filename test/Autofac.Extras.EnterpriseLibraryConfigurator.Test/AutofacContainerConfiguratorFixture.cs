@@ -4,20 +4,19 @@ using Autofac;
 using Autofac.Extras.EnterpriseLibraryConfigurator;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration.ContainerModel;
-using NUnit.Framework;
+using Xunit;
 
 namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigurator.Test
 {
-    [TestFixture]
     public class AutofacContainerConfiguratorFixture
     {
-        [Test(Description = "Tries to create a configurator on a null builder.")]
+        [Fact]
         public void Ctor_NullBuilder()
         {
             Assert.Throws<ArgumentNullException>(() => new AutofacContainerConfigurator(null));
         }
 
-        [Test(Description = "Tries to register dependencies from a null configuration source.")]
+        [Fact]
         public void RegisterAll_NullConfigurationSource()
         {
             var builder = new ContainerBuilder();
@@ -26,7 +25,7 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             Assert.Throws<ArgumentNullException>(() => configurator.RegisterAll(null, rootProvider));
         }
 
-        [Test(Description = "Tries to register dependencies using a null registration provider.")]
+        [Fact]
         public void RegisterAll_NullRegistrationProvider()
         {
             var builder = new ContainerBuilder();
@@ -35,18 +34,18 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             Assert.Throws<ArgumentNullException>(() => configurator.RegisterAll(configurationSource, null));
         }
 
-        [Test(Description = "Verifies that a placeholder configuration change event source is added so EntLib components that require it will find it.")]
+        [Fact]
         public void RegisterAll_RegistersPlaceholderConfigurationChangeEventSource()
         {
             var container = this.ExecuteRegisterAllOnValidConfigurator();
-            Assert.IsTrue(container.IsRegistered<ConfigurationChangeEventSource>(), "A ConfigurationChangeEventSource should have been found in the container.");
+            Assert.True(container.IsRegistered<ConfigurationChangeEventSource>(), "A ConfigurationChangeEventSource should have been found in the container.");
         }
 
-        [Test(Description = "Verifies that the provided EntLib registrations get added to the Autofac container.")]
+        [Fact]
         public void RegisterAll_RegistersProvidedTypeRegistrations()
         {
             var container = this.ExecuteRegisterAllOnValidConfigurator();
-            Assert.IsTrue(container.IsRegistered<ISampleService>(), "The provided registration was not added to the container.");
+            Assert.True(container.IsRegistered<ISampleService>(), "The provided registration was not added to the container.");
         }
 
         private IContainer ExecuteRegisterAllOnValidConfigurator()

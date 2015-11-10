@@ -1,22 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Autofac;
 using Autofac.Builder;
 using Autofac.Core;
 using Autofac.Core.Lifetime;
 using Autofac.Extras.EnterpriseLibraryConfigurator;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration;
 using Microsoft.Practices.EnterpriseLibrary.Common.Configuration.ContainerModel;
-using NUnit.Framework;
+using Xunit;
 using EntLibContainer = Microsoft.Practices.EnterpriseLibrary.Common.Configuration.ContainerModel.Container;
 
 namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigurator.Test
 {
-    [TestFixture]
     public class EnterpriseLibraryRegistrationExtensionsFixture
     {
-        [Test(Description = "Tries to register the EntLib bits from a null configuration source.")]
+        [Fact]
         public void RegisterEnterpriseLibrary_NullConfigurationSource()
         {
             var builder = new ContainerBuilder();
@@ -24,7 +22,7 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             Assert.Throws<ArgumentNullException>(() => builder.RegisterEnterpriseLibrary(source));
         }
 
-        [Test(Description = "Tries to register the EntLib bits into a null builder.")]
+        [Fact]
         public void RegisterEnterpriseLibrary_NullContainerBuilder()
         {
             ContainerBuilder builder = null;
@@ -33,7 +31,7 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             Assert.Throws<ArgumentNullException>(() => builder.RegisterEnterpriseLibrary(source));
         }
 
-        [Test(Description = "Registers a default service (not named) with no parameters.")]
+        [Fact]
         public void RegisterTypeRegistration_Default_NoParameters()
         {
             var registration = new TypeRegistration<RegisteredServiceConsumer>(() => new RegisteredServiceConsumer());
@@ -45,12 +43,12 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             var container = builder.Build();
 
             var instance = container.Resolve<RegisteredServiceConsumer>();
-            Assert.AreEqual("DEFAULTCTOR", instance.CtorParameter, "The default constructor should have been invoked.");
+            Assert.Equal("DEFAULTCTOR", instance.CtorParameter);
             var instance2 = container.Resolve<RegisteredServiceConsumer>();
-            Assert.AreSame(instance, instance2, "The lifetime was not set on the registration.");
+            Assert.Same(instance, instance2);
         }
 
-        [Test(Description = "Registers a default service (not named) with an enumerated parameter.")]
+        [Fact]
         public void RegisterTypeRegistration_Default_WithEnumerationParameter()
         {
             var itemNames = new string[]
@@ -74,14 +72,14 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             var container = builder.Build();
 
             var resolved = container.Resolve<RegisteredServiceConsumer>();
-            Assert.IsInstanceOf<IEnumerable<ISampleService>>(resolved.CtorParameter, "The constructor parameter was not the right type.");
+            Assert.IsAssignableFrom<IEnumerable<ISampleService>>(resolved.CtorParameter);
             var services = ((IEnumerable<ISampleService>)resolved.CtorParameter).ToArray();
-            Assert.AreSame(first, services[0], "The first enumerable service was not resolved properly.");
-            Assert.AreSame(second, services[1], "The second enumerable service was not resolved properly.");
-            Assert.AreSame(third, services[2], "The third enumerable service was not resolved properly.");
+            Assert.Same(first, services[0]);
+            Assert.Same(second, services[1]);
+            Assert.Same(third, services[2]);
         }
 
-        [Test(Description = "Registers a default service (not named) with a simple constructor parameter.")]
+        [Fact]
         public void RegisterTypeRegistration_Default_WithSimpleParameter()
         {
             var registration = new TypeRegistration<RegisteredServiceConsumer>(() => new RegisteredServiceConsumer("abc"));
@@ -93,12 +91,12 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             var container = builder.Build();
 
             var instance = container.Resolve<RegisteredServiceConsumer>();
-            Assert.AreEqual("abc", instance.CtorParameter, "The string parameter constructor should have been invoked with the appropriate argument.");
+            Assert.Equal("abc", instance.CtorParameter);
             var instance2 = container.Resolve<RegisteredServiceConsumer>();
-            Assert.AreNotSame(instance, instance2, "The lifetime was not set on the registration.");
+            Assert.NotSame(instance, instance2);
         }
 
-        [Test(Description = "Registers a named service with no parameters.")]
+        [Fact]
         public void RegisterTypeRegistration_Named_NoParameters()
         {
             var registration = new TypeRegistration<RegisteredServiceConsumer>(() => new RegisteredServiceConsumer());
@@ -109,13 +107,13 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             builder.RegisterTypeRegistration(registration);
             var container = builder.Build();
 
-            var instance = container.ResolveNamed<RegisteredServiceConsumer>("named-service"); ;
-            Assert.AreEqual("DEFAULTCTOR", instance.CtorParameter, "The default constructor should have been invoked.");
-            var instance2 = container.ResolveNamed<RegisteredServiceConsumer>("named-service"); ;
-            Assert.AreSame(instance, instance2, "The lifetime was not set on the registration.");
+            var instance = container.ResolveNamed<RegisteredServiceConsumer>("named-service");
+            Assert.Equal("DEFAULTCTOR", instance.CtorParameter);
+            var instance2 = container.ResolveNamed<RegisteredServiceConsumer>("named-service");
+            Assert.Same(instance, instance2);
         }
 
-        [Test(Description = "Registers a named service with constructor parameters.")]
+        [Fact]
         public void RegisterTypeRegistration_Named_WithParameters()
         {
             var registration = new TypeRegistration<RegisteredServiceConsumer>(() => new RegisteredServiceConsumer(EntLibContainer.Resolved<ISampleService>()));
@@ -128,13 +126,13 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             builder.RegisterInstance(dependency).As<ISampleService>();
             var container = builder.Build();
 
-            var instance = container.ResolveNamed<RegisteredServiceConsumer>("named-service"); ;
-            Assert.AreSame(dependency, instance.CtorParameter, "The service implementation parameter constructor should have been invoked with the appropriate argument.");
-            var instance2 = container.ResolveNamed<RegisteredServiceConsumer>("named-service"); ;
-            Assert.AreNotSame(instance, instance2, "The lifetime was not set on the registration.");
+            var instance = container.ResolveNamed<RegisteredServiceConsumer>("named-service");
+            Assert.Same(dependency, instance.CtorParameter);
+            var instance2 = container.ResolveNamed<RegisteredServiceConsumer>("named-service");
+            Assert.NotSame(instance, instance2);
         }
 
-        [Test(Description = "Tries to register a type registration into a null ContainerBuilder.")]
+        [Fact]
         public void RegisterTypeRegistration_NullContainerBuilder()
         {
             var registration = new TypeRegistration<RegisteredServiceConsumer>(() => new RegisteredServiceConsumer("abc"));
@@ -142,7 +140,7 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             Assert.Throws<ArgumentNullException>(() => builder.RegisterTypeRegistration(registration));
         }
 
-        [Test(Description = "Tries to register a null type registration into a ContainerBuilder.")]
+        [Fact]
         public void RegisterTypeRegistration_NullTypeRegistration()
         {
             TypeRegistration registration = null;
@@ -150,20 +148,20 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             Assert.Throws<ArgumentNullException>(() => builder.RegisterTypeRegistration(registration));
         }
 
-        [Test(Description = "Verifies a successful constructor preference setting on an Autofac registrar.")]
+        [Fact]
         public void UsingConstructorFrom_MatchingConstructor()
         {
             var registration = new TypeRegistration<RegisteredServiceConsumer>(() => new RegisteredServiceConsumer("abc"));
             var builder = new ContainerBuilder();
             var registrar = builder.RegisterType<RegisteredServiceConsumer>();
-            Assert.DoesNotThrow(() => registrar.UsingConstructorFrom(registration));
+            registrar.UsingConstructorFrom(registration);
             builder.RegisterInstance("def").As<String>();
             var container = builder.Build();
             var instance = container.Resolve<RegisteredServiceConsumer>();
-            Assert.AreEqual("def", instance.CtorParameter, "The wrong constructor was chosen.");
+            Assert.Equal("def", instance.CtorParameter);
         }
 
-        [Test(Description = "Setting a constructor preference on an Autofac registrar should fail if the parameters don't match.")]
+        [Fact]
         public void UsingConstructorFrom_NoMatchingConstructor()
         {
             // There are no two-string constructors for RegisteredServiceConsumer.
@@ -175,7 +173,7 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             Assert.Throws<ArgumentException>(() => registrar.UsingConstructorFrom(registration));
         }
 
-        [Test(Description = "Tries to set a constructor preference on a null Autofac registrar.")]
+        [Fact]
         public void UsingConstructorFrom_NullRegistrar()
         {
             var registration = new TypeRegistration<RegisteredServiceConsumer>(() => new RegisteredServiceConsumer("abc"));
@@ -183,7 +181,7 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             Assert.Throws<ArgumentNullException>(() => registrar.UsingConstructorFrom(registration));
         }
 
-        [Test(Description = "Tries to set a constructor preference from a null EntLib type registration.")]
+        [Fact]
         public void UsingConstructorFrom_NullRegistration()
         {
             TypeRegistration<RegisteredServiceConsumer> registration = null;
@@ -192,9 +190,9 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             Assert.Throws<ArgumentNullException>(() => registrar.UsingConstructorFrom(registration));
         }
 
-        [Test(Description = "Checks the translation of EntLib lifetimes to Autofac instance scopes.")]
-        [TestCase(TypeRegistrationLifetime.Singleton, InstanceSharing.Shared, typeof(RootScopeLifetime))]
-        [TestCase(TypeRegistrationLifetime.Transient, InstanceSharing.None, typeof(CurrentScopeLifetime))]
+        [Theory]
+        [InlineData(TypeRegistrationLifetime.Singleton, InstanceSharing.Shared, typeof(RootScopeLifetime))]
+        [InlineData(TypeRegistrationLifetime.Transient, InstanceSharing.None, typeof(CurrentScopeLifetime))]
         public void WithInstanceScope_CheckLifetimeTranslation(TypeRegistrationLifetime entLibLifetime, InstanceSharing autofacInstanceSharing, Type autofacLifetimeType)
         {
             var builder = new ContainerBuilder();
@@ -202,19 +200,19 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             var container = builder.Build();
 
             IComponentRegistration autofacRegistration = null;
-            Assert.IsTrue(container.ComponentRegistry.TryGetRegistration(new TypedService(typeof(RegisteredServiceConsumer)), out autofacRegistration), "The service type was not registered into the container.");
-            Assert.IsInstanceOf(autofacLifetimeType, autofacRegistration.Lifetime, "The registration lifetime type was not correct.");
-            Assert.AreEqual(autofacInstanceSharing, autofacRegistration.Sharing, "The registration sharing was not correct.");
+            Assert.True(container.ComponentRegistry.TryGetRegistration(new TypedService(typeof(RegisteredServiceConsumer)), out autofacRegistration), "The service type was not registered into the container.");
+            Assert.IsType(autofacLifetimeType, autofacRegistration.Lifetime);
+            Assert.Equal(autofacInstanceSharing, autofacRegistration.Sharing);
         }
 
-        [Test(Description = "Tries to set the instance scope on a null Autofac registrar.")]
+        [Fact]
         public void WithInstanceScope_NullRegistrar()
         {
             IRegistrationBuilder<RegisteredServiceConsumer, ConcreteReflectionActivatorData, SingleRegistrationStyle> registrar = null;
             Assert.Throws<ArgumentNullException>(() => registrar.WithInstanceScope(TypeRegistrationLifetime.Singleton));
         }
 
-        [Test(Description = "Registers a service given the parameters from a type registration that has no parameters.")]
+        [Fact]
         public void WithParametersFrom_NoParameters()
         {
             var registration = new TypeRegistration<RegisteredServiceConsumer>(() => new RegisteredServiceConsumer());
@@ -231,11 +229,11 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
                 .WithParametersFrom(registration);
             var container = builder.Build();
 
-            Assert.DoesNotThrow(() => container.ResolveNamed<RegisteredServiceConsumer>("success"), "No parameters should allow the no-param constructor to run.");
-            Assert.Throws<DependencyResolutionException>(() => container.ResolveNamed<RegisteredServiceConsumer>("fail"), "The resolution should fail on the parameterized constructor if no parameters are provided.");
+            container.ResolveNamed<RegisteredServiceConsumer>("success");
+            Assert.Throws<DependencyResolutionException>(() => container.ResolveNamed<RegisteredServiceConsumer>("fail"));
         }
 
-        [Test(Description = "Tries to set constructor parameters on a null Autofac registrar.")]
+        [Fact]
         public void WithParametersFrom_NullRegistrar()
         {
             var registration = new TypeRegistration<RegisteredServiceConsumer>(() => new RegisteredServiceConsumer("abc"));
@@ -243,7 +241,7 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             Assert.Throws<ArgumentNullException>(() => registrar.WithParametersFrom(registration));
         }
 
-        [Test(Description = "Tries to set a constructor parameters from a null EntLib type registration.")]
+        [Fact]
         public void WithParametersFrom_NullRegistration()
         {
             TypeRegistration<RegisteredServiceConsumer> registration = null;
@@ -252,7 +250,7 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             Assert.Throws<ArgumentNullException>(() => registrar.WithParametersFrom(registration));
         }
 
-        [Test(Description = "Registers a service given the parameters from a type registration that has a simple parameter.")]
+        [Fact]
         public void WithParametersFrom_SimpleParameter()
         {
             var registration = new TypeRegistration<RegisteredServiceConsumer>(() => new RegisteredServiceConsumer("abc"));
@@ -270,8 +268,8 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
             var container = builder.Build();
 
             var resolved = container.ResolveNamed<RegisteredServiceConsumer>("success");
-            Assert.AreEqual("abc", resolved.CtorParameter, "The parameterized constructor should have received the parameters from the type registration..");
-            Assert.Throws<DependencyResolutionException>(() => container.ResolveNamed<RegisteredServiceConsumer>("fail"), "The resolution should fail on the parameterized constructor if the wrong parameters are provided.");
+            Assert.Equal("abc", resolved.CtorParameter);
+            Assert.Throws<DependencyResolutionException>(() => container.ResolveNamed<RegisteredServiceConsumer>("fail"));
         }
 
         private interface ISampleService
@@ -285,18 +283,22 @@ namespace Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigura
         private class RegisteredServiceConsumer
         {
             public object CtorParameter { get; private set; }
+
             public RegisteredServiceConsumer()
             {
                 this.CtorParameter = "DEFAULTCTOR";
             }
+
             public RegisteredServiceConsumer(ISampleService service)
             {
                 this.CtorParameter = service;
             }
+
             public RegisteredServiceConsumer(IEnumerable<ISampleService> services)
             {
                 this.CtorParameter = services;
             }
+
             public RegisteredServiceConsumer(string input)
             {
                 this.CtorParameter = input;

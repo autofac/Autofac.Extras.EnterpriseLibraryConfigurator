@@ -9,8 +9,8 @@
     <ProjectGuid>{0122ECB8-93C3-4020-A28D-1078E32C5DB2}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigurator.Test</RootNamespace>
-    <AssemblyName>Autofac.Extras.EnterpriseLibraryConfiguratorEnterpriseLibraryConfigurator.Test</AssemblyName>
+    <RootNamespace>Autofac.Extras.EnterpriseLibraryConfigurator.Test</RootNamespace>
+    <AssemblyName>Autofac.Extras.EnterpriseLibraryConfigurator.Test</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SignAssembly>true</SignAssembly>

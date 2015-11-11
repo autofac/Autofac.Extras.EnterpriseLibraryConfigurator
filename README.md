@@ -4,7 +4,9 @@ Microsoft Patterns and Practices Enterprise Library 5 support for using [Autofac
 
 [![Build status](https://ci.appveyor.com/api/projects/status/3o5xlwu9t8on7oue?svg=true)](https://ci.appveyor.com/project/Autofac/autofac-extras-enterpriselibraryconfigurator)
 
-**Note: This package is only for EntLib 5.** Enterprise Library 6 was updated so it no longer requires an integration package and is decoupled from dependency injection.
+**MAINTENANCE MODE**: This package is in maintenance-only mode. Bug fixes may be addressed and Autofac compatibility may be checked but no new features will be added.
+
+**This package is only for EntLib 5.** Enterprise Library 6 was updated so it no longer requires an integration package and is decoupled from dependency injection.
 
 Please file issues and pull requests for this package in this repository rather than in the Autofac core repo.
 

@@ -4,13 +4,13 @@
     <id>Autofac.Extras.EnterpriseLibraryConfigurator</id>
     <version>$version$</version>
     <authors>Autofac Contributors</authors>
-    <licenseUrl>http://www.opensource.org/licenses/mit-license.php</licenseUrl>
+    <licenseUrl>https://opensource.org/licenses/mit-license.php</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Microsoft Enterprise Library features generally assume Unity as the backing store for IoC operations. This extension allows you to use Autofac as the backing store for Microsoft Enterprise Library application blocks.</description>
     <summary>Microsoft Patterns and Practices Enterprise Library 5 support for using Autofac as the container.</summary>
     <language>en-US</language>
     <title>Autofac Extras: Enterprise Library 5 Configuration Support</title>
-    <projectUrl>http://autofac.org</projectUrl>
+    <projectUrl>https://autofac.org</projectUrl>
     <iconUrl>https://cloud.githubusercontent.com/assets/1156571/13684110/16b8f152-e6bf-11e5-84ae-22c66c6d351a.png</iconUrl>
     <releaseNotes>Release notes are at https://github.com/autofac/Autofac.Extras.EnterpriseLibraryConfigurator/releases</releaseNotes>
     <dependencies>

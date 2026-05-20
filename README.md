@@ -4,7 +4,7 @@ Microsoft Patterns and Practices Enterprise Library 5 support for using [Autofac
 
 [![Build status](https://ci.appveyor.com/api/projects/status/3o5xlwu9t8on7oue?svg=true)](https://ci.appveyor.com/project/Autofac/autofac-extras-enterpriselibraryconfigurator)
 
-> :warning: **MAINTENANCE MODE**: This package is in maintenance-only mode. Bug fixes may be addressed and Autofac compatibility may be checked but no new features will be added.
+> :warning: **PROJECT ARCHIVED**: This package was put into maintenance-only mode in 2015 and was subsequently archived with no intent to continue any level of support in 2026.
 
 [The `Autofac.Extras.EnterpriseLibraryConfigurator` package](https://www.nuget.org/packages/Autofac.Extras.EnterpriseLibraryConfigurator/) provides a way to use Autofac as the backing store for dependency injection in [Microsoft Enterprise Library 5](http://entlib.codeplex.com/releases/view/43135) instead of using Unity. It does this in conjunction with the Autofac Common Service Locator implementation.
 
